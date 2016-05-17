@@ -121,3 +121,47 @@ Scenarios:
   - fits 320x320px ~ 1xIPR * 2xDPR * 0.5xSPR * 2xIQR = 2
   - fits 640x640px ~ 2xIPR * 1xDPR * 0.5xSPR * 2xIQR = 2
   - fits 1280x1280 ~ 3xIPR * 1xDPR * 0.33xSPR * 2xIQR = 2
+
+## Appendix
+
+Min. network speed is calculated as time needed to load image 320 x 320 at max. time 0.5 second.
+
+![](images/graph-q25-q75.png)
+
+High compression (low quality) should be used only for devices with DPR >= 2 (or when effective image ratio would be higher than 1) as higher density tends to hide compression artifacts much better.
+
+#### For images @ JPEG quality=75
+
+![](images/graph-q75.png)
+
+Formula: `image.filesize = Math.pow(x, 1.68) + 500`
+
+DPR	 | Image Base [px] | Image Size [B] | Min. speed [kBit/s]
+-----|-----------------|----------------|--------------------
+0.25 | 80 | 2075 | 32
+0.333 | 106.56 | 3049 | 48
+0.5 | 160 | 5546 | 87
+1 | 320 | 16668 | 260
+2 | 640 | 52306 | 817
+3 | 960 | 102880 | 1608
+4 | 1280 | 166502 | 2602
+
+Average error is around 1% for image width/height > 320 px.
+
+#### For images @ JPEG quality=25
+
+![](images/graph-q25.png)
+
+Formula: `image.filesize = Math.pow(x, 1.563) + 550`
+
+DPR | Image Base [px] | Image Size [B] | Min. speed [kBit/s]
+-----|-----------------|----------------|--------------------
+0.25 | 80 | 1493 | 23
+0.333 | 106.56 | 2026 | 32
+0.5 | 160 | 3336 | 52
+1 | 320 | 8783 | 137
+2 | 640 | 24875 | 389
+3 | 960 | 46395 | 725
+4 | 1280 | 72424 | 1132
+
+Average error is around 5% for image width/height > 320 px.
